@@ -1,0 +1,13 @@
+memo = "eb97085b902621c3dea8444eb4f7814c1171c20640eee2e95d5fe0198f3ff887"
+
+[[projects]]
+  name = "github.com/DATA-DOG/godog"
+  packages = [".","colors","gherkin"]
+  revision = "cf8fbb4ad0d5fab464a5c9b79abbcfbd7c27e85b"
+  version = "v0.6.3"
+
+[[projects]]
+  name = "github.com/tebeka/selenium"
+  packages = ["."]
+  revision = "2ccea6e0c0e7425dd3bb6ab291215e2048fd8743"
+  version = "v0.9.3"

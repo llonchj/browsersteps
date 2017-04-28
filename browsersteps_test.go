@@ -1,7 +1,9 @@
 package browsersteps
 
 import (
+	"encoding/json"
 	"fmt"
+	"log"
 	"os"
 	"testing"
 	"time"
@@ -22,15 +24,22 @@ func iWaitFor(amount int, unit string) error {
 }
 
 func FeatureContext(s *godog.Suite) {
-	// selenium.SetDebug(true)
-
 	s.Step(`^I wait for (\d+) (milliseconds|millisecond|seconds|second)$`, iWaitFor)
 
-	var server *httptest.Server
+	// selenium.SetDebug(true)
+	capabilities := selenium.Capabilities{"browserName": "chrome"}
+	capEnv := os.Getenv("SELENIUM_CAPABILITIES")
+	if capEnv != "" {
+		err := json.Unmarshal([]byte(capEnv), &capabilities)
+		if err != nil {
+			log.Panic(err)
+		}
+	}
 	bs, _ := NewBrowserSteps(s,
-		selenium.Capabilities{"browserName": "chrome"},
-		"")
+		capabilities,
+		os.Getenv("SELENIUM_URL"))
 
+	var server *httptest.Server
 	s.BeforeSuite(func() {
 		server = httptest.NewServer(http.FileServer(http.Dir("./public")))
 		u, _ := url.Parse(server.URL)

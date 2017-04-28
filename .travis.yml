@@ -1,0 +1,25 @@
+language: go
+
+env:
+  - SELENIUM_CAPABILITIES='{"browserstack.local":true}'
+  - SELENIUM_URL='http://USERNAME:ACCESS_KEY@hub-cloud.browserstack.com/wd/hub'
+
+go:
+  - 1.x
+  - 1.7.x
+  - 1.8.x
+  - master
+
+install:
+  - go get -u github.com/golang/dep/...
+
+script:
+  - dep ensure
+  - go test
+
+addons:
+  browserstack:
+    username: jordillonch2
+    access_key:
+      secure: o6BaSycY7lYIAJLHTEffCDGiJiD03qY+nUb68/oy+014D/r9qUNtBz9TbCaylYBGAD9juACJNzeEI63+m7M2MKVtHotY7PJUJguJyIiL2/W0Bp/LA7WGBHoe230jBNoUs4tXIwFgWQZMph4s6rhyhNSKugNCDbh9Szf4fB/cf/QqdanJLwuWfDnSQ1BoRqlyRggDdcMWOXifbgwEnhjvI++Kk4IOWJ5bKk6pWMFSYOyuEUssCOkrrDz3ZsFyW3rOZDZXyMxhYVZRmFpNWhkfjfA3fe9VaJ7o/8uSdOcaAzIFiIQ8sM1QsyrXz+h3/oTR8Lv4RYomGQEFdqBMxpWncYQLDNEJYQlmV4KAdyjm8ZJSCcqNVFi+55BU7wJNffnD+4lD4Wf6yWi7kLIEKPU/4hmSNwCxyK8mbLacw82hUGYAezYD00abJ0ekX1ssn9omc1LwrJzHubQ+T6+MvtdRkdqanZ7E6vPbOhpTXFra4qQsUVTSQxhhVpl9CK4Y32F40PMPrsAsAM9arKjNQ3abA1PO1Ze7s71F5opw7kGFsHYEn8q1VjlBzauUmrNnqeNLe6LhYzZ+DetldXg4HQoY4Uy7N/cdTj4TTtWEOzl6vXQ2tJtbBNgak02wai4pYMI0tb1WuLRBHbsy9A6BRkypln635lVSEHlCu55kZC3KkZQ=
+

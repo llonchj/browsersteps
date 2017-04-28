@@ -9,5 +9,6 @@ This package provides Cucumber steps for Browser automation.
 ## Usage
 
 1. Create cucumber features in your project's `/features` folder.
-2. Use this repository `example/example_tests.go` file as `main_test.go` in your project.
-3. Run `godog` or `go test`.
+1. Use this repository `example/example_tests.go` file as `main_test.go` in your project.
+1. Execute Selenium Server.
+1. Run `godog` or `go test`.

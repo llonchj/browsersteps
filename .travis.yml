@@ -1,14 +1,10 @@
 language: go
 
 env:
-  - SELENIUM_CAPABILITIES='{"browserstack.local":true}'
-  - SELENIUM_URL='http://USERNAME:ACCESS_KEY@hub-cloud.browserstack.com/wd/hub'
+  - SELENIUM_CAPABILITIES='{"browserstack.local":true}' SELENIUM_URL='http://USERNAME:ACCESS_KEY@hub-cloud.browserstack.com/wd/hub'
 
 go:
-  - 1.x
-  - 1.7.x
   - 1.8.x
-  - master
 
 install:
   - go get -u github.com/golang/dep/...

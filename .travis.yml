@@ -8,11 +8,15 @@ env:
 
 go:
 - 1.8.x
+
 install:
 - go get -u github.com/golang/dep/...
+
 script:
 - dep ensure
+- sleep 10
 - go test
+
 addons:
   browserstack:
     username: 

@@ -4,7 +4,6 @@ env:
   - secure: "MmGK7dAikt1K5wRwSJr4mBjqOHl/zBS7SkfxlT4UwrhuaIwlobqFPu32KsDFs/F5WRZjhZbNcM89qh9+YAFuf5d2NoCGK2S5WJmszn7BFK8bqUKE1jBmXJlvyRu3baB0oM+PzEIVPCGXxu2R12pEfg61/yI5/NQyqPKcSfLVextIco2FzLEtPmhjUoqr1dgYt1QEAAaj//Os1WX/k+6fP4+qlnIpJh4cABxD3N8qbEgI5mXRpTloewj6hIE6jVb1V/YCyJrDEgDTBHo1L7jTHfUUJOsZSpna9MCipTAvdk0j9tZxR5c5L2lwg+P9DdKST/ae+WiQDGI5qOL0SN42/Tkr8ujHfBgT23LJep+wtPR0h8f5lcze1EdgL5PH1P8Apl0y8KLEbIxvRPoT7YFikKdqNpBCAnfOTAyjY32O2++2mAzs1kIjjuoO8D7dn3zxnFZxhI+5ZM2BCVmIsxsKsMkyoPUaG4Jc0Deh5Ej905WYX3o0lHUKEkGurIPBQHNUQh3gmZRjqa1D5oukQ5qBUzCEe8giwy6m2Qwjabofp54LXtU97KFZKzwgmXgSSa177BGDitRus64nW6HoPdS3aV/U30nCC1D3HSq03e+fAlBekq+XqaQNzZaMzlSQu2tH6Q24E3o/BJQ3iJ+y5nlgUZK8tpDXsCaDrB92PiEKMqY="
   - secure: "CgpJu8tFgEAx6ja4v8P9Hw0jnF/44FUmx+ZnVwu3jKptRhf78W99n3G2YZk4wMqIEDGLLCMLLOUNg08M391X4pAKvW+bEwCJQZck6sownStaX733G6eFgXDKPXbr615yC3y5wFiJhxxq7Tp+9tLz6Yus0lnjaKu2U4hPRzwjsArLuJD4E9chniaLcAvLXGK+C2yOt32Z+m0uLlYNZgYtuUaEBBqQ7G9gqhscP7yWfAt0YXeYi3FDd0fv09Qnm9m8wJDxoJmU6HsNCzAqWNACMGvop09Te5g9mOM4Z7GSq3t4oP65UDKwMTupOoNMwplNA0/B5FqPA7JVWIqWJlMhLqH4hdc8YyQstMvFGkaxc91tAOn6yiqYY8sU8aMRsn+5BY7Z22RhwCYQezsLDhAOLidaQe8HPbLVuKtSyHUVV79aEvbUx8y2226u5EdwZBHtCuj5MXV1v8R/3rADRlOsMmKpsgDdILqjpf4bpmwc8lv2uGNazPYcXXxrU2+nfrJBVyWekogz/Ox0B9P8iuyWXCHxTRaN/s1G+SfGWS/Rg/NXH6hUhkMsw2LR/mdnXjC2z06a8BeP03KJWAd9GxVLjNdkoPTiysynCpIBql0Q3iFb/Ilbcwu99+TjjyXOVAaLbr5ar3JQJTwxawtt6kHMTPuM375qCgsneteymSsEhMg="
   - SELENIUM_CAPABILITIES='{"browserstack.local":true}'
-  - SELENIUM_URL="http://$BROWSERSTACK_USERNAME:$BROWSERSTACK_ACCESS_KEY@hub-cloud.browserstack.com/wd/hub"
 
 go:
 - 1.8.x
@@ -12,7 +11,7 @@ install:
 - go get -u github.com/golang/dep/...
 script:
 - dep ensure
-- go test
+- SELENIUM_URL="http://$BROWSERSTACK_USERNAME:$BROWSERSTACK_ACCESS_KEY@hub-cloud.browserstack.com/wd/hub" go test
 addons:
   browserstack:
     username: 

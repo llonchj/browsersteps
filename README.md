@@ -20,4 +20,4 @@ This package provides Cucumber steps for Browser automation.
 * [DATA-DOG/godog](http://github.com/DATA-DOG/godog) project for Cucumber implementation for Golang.
 * [Browserstack](http://browserstack.com) for providing support and automation to this project.
 
-<img src="images/browserstack.svg" height="48">
+<img src="https://github.com/llonchj/browsersteps/raw/master/images/browserstack.svg" height="48">

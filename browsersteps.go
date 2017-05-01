@@ -12,8 +12,7 @@ import (
 	"github.com/tebeka/selenium"
 )
 
-/*BrowserSteps represents a WebDriver context to run the Scenarios
- */
+/*BrowserSteps represents a WebDriver context to run the Scenarios*/
 type BrowserSteps struct {
 	wd           selenium.WebDriver
 	Capabilities selenium.Capabilities
@@ -21,6 +20,7 @@ type BrowserSteps struct {
 	URL          *url.URL
 }
 
+/*SetBaseURL sets the absolute URL used to complete relative URLs*/
 func (b *BrowserSteps) SetBaseURL(url *url.URL) error {
 	if !url.IsAbs() {
 		return errors.New("BaseURL must be absolute")
@@ -73,6 +73,7 @@ func (b *BrowserSteps) iMoveTo(selector, by string) error {
 	return element.MoveTo(0, 0)
 }
 
+//BeforeScenario is executed before each scenario
 func (b *BrowserSteps) BeforeScenario(a interface{}) {
 	var err error
 	b.wd, err = selenium.NewRemote(b.Capabilities, b.DefaultURL)
@@ -81,6 +82,7 @@ func (b *BrowserSteps) BeforeScenario(a interface{}) {
 	}
 }
 
+//AfterScenario is executed after each scenario
 func (b *BrowserSteps) AfterScenario(a interface{}, err error) {
 	if err != nil {
 		filename := fmt.Sprintf("FAILED STEP - %s.png", err.Error())

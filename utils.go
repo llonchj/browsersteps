@@ -8,6 +8,8 @@ import (
 	"github.com/tebeka/selenium"
 )
 
+/*ByOption is the regular expression for allowed selenium.By* in step
+definitions*/
 const ByOption = `(id|xpath|link text|partial link text|name|tag name|class name|css selector)`
 
 //GetWebDriver returns the webdriver

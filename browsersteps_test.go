@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net"
 	"os"
 	"testing"
 	"time"
@@ -35,9 +36,11 @@ func FeatureContext(s *godog.Suite) {
 			log.Panic(err)
 		}
 	}
-	bs, _ := NewBrowserSteps(s,
-		capabilities,
-		os.Getenv("SELENIUM_URL"))
+
+	bs, err := NewBrowserSteps(s, capabilities, os.Getenv("SELENIUM_URL"))
+	if err != nil {
+		log.Panic(err.Error())
+	}
 
 	var server *httptest.Server
 	s.BeforeSuite(func() {

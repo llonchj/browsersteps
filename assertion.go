@@ -13,6 +13,10 @@ func (b *BrowserSteps) iShouldBeIn(browseURL string) error {
 	}
 
 	currentURL, err := b.GetWebDriver().CurrentURL()
+	if err != nil {
+		return err
+	}
+
 	if currentURL != u.String() {
 		return fmt.Errorf("URL does not match. Expected '%s', Found '%s'",
 			u.String(), currentURL)

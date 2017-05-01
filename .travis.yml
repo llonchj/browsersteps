@@ -14,6 +14,7 @@ install:
 script:
 - dep ensure
 - export SELENIUM_CAPABILITIES="{\"browserstack.local\":${BROWSERSTACK_LOCAL}, \"browserstack.localIdentifier\":${BROWSERSTACK_LOCAL_IDENTIFIER//\"/\\\"}}"
+- echo $SELENIUM_CAPABILITIES
 - sleep 10
 - go test
 

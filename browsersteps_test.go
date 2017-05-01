@@ -41,8 +41,20 @@ func FeatureContext(s *godog.Suite) {
 
 	var server *httptest.Server
 	s.BeforeSuite(func() {
-		server = httptest.NewServer(http.FileServer(http.Dir("./public")))
-		u, _ := url.Parse(server.URL)
+		server = httptest.NewUnstartedServer(http.FileServer(http.Dir("./public")))
+		listenAddress := os.Getenv("SERVER_LISTEN")
+		if listenAddress != "" {
+			var err error
+			server.Listener, err = net.Listen("tcp4", listenAddress)
+			if err != nil {
+				log.Fatal(err)
+			}
+		}
+		server.Start()
+		u, err := url.Parse(server.URL)
+		if err != nil {
+			log.Panic(err.Error())
+		}
 		bs.SetBaseURL(u)
 	})
 

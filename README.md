@@ -1,5 +1,8 @@
 # BrowserSteps
 
+[![Build Status](https://travis-ci.org/llonchj/browsersteps.svg?branch=master)](https://travis-ci.org/llonchj/browsersteps)
+
+
 This package provides Cucumber steps for Browser automation.
 
 ## Installation

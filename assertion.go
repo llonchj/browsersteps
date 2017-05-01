@@ -13,6 +13,10 @@ func (b *BrowserSteps) iShouldBeIn(browseURL string) error {
 	}
 
 	currentURL, err := b.GetWebDriver().CurrentURL()
+	if err != nil {
+		return err
+	}
+
 	if currentURL != u.String() {
 		return fmt.Errorf("URL does not match. Expected '%s', Found '%s'",
 			u.String(), currentURL)
@@ -50,34 +54,34 @@ func (b *BrowserSteps) iShouldSeeIn(expectedText, selector, by string) error {
 
 func (b *BrowserSteps) iShouldSee(selector, by string) error {
 	return godog.ErrPending
-	element, err := b.GetWebDriver().FindElement(by, selector)
-	if err != nil {
-		return err
-	}
-	visible, err := element.IsDisplayed()
-	if err != nil {
-		return err
-	}
-	if !visible {
-		return fmt.Errorf("Element '%s' is not visible", selector)
-	}
-	return nil
+	// element, err := b.GetWebDriver().FindElement(by, selector)
+	// if err != nil {
+	// 	return err
+	// }
+	// visible, err := element.IsDisplayed()
+	// if err != nil {
+	// 	return err
+	// }
+	// if !visible {
+	// 	return fmt.Errorf("Element '%s' is not visible", selector)
+	// }
+	// return nil
 }
 
 func (b *BrowserSteps) iShouldNotSee(selector, by string) error {
 	return godog.ErrPending
-	element, err := b.GetWebDriver().FindElement(by, selector)
-	if err != nil {
-		return err
-	}
-	visible, err := element.IsDisplayed()
-	if err != nil {
-		return err
-	}
-	if visible {
-		return fmt.Errorf("Element '%s' is visible", selector)
-	}
-	return nil
+	// element, err := b.GetWebDriver().FindElement(by, selector)
+	// if err != nil {
+	// 	return err
+	// }
+	// visible, err := element.IsDisplayed()
+	// if err != nil {
+	// 	return err
+	// }
+	// if visible {
+	// 	return fmt.Errorf("Element '%s' is visible", selector)
+	// }
+	// return nil
 }
 
 func (b *BrowserSteps) iShouldSeeAlertAs(expectedText string) error {

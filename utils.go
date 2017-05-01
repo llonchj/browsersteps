@@ -8,6 +8,8 @@ import (
 	"github.com/tebeka/selenium"
 )
 
+/*ByOption is the regular expression for allowed selenium.By* in step
+definitions*/
 const ByOption = `(id|xpath|link text|partial link text|name|tag name|class name|css selector)`
 
 //GetWebDriver returns the webdriver
@@ -25,8 +27,7 @@ func (b *BrowserSteps) GetURL(URL string) (*url.URL, error) {
 		if b.URL == nil {
 			return nil, errors.New("Using a relative URL without a base URL defined. Invoke BrowserSteps.SetBaseURL")
 		}
-		m := b.URL.ResolveReference(u)
-		return m, nil
+		return b.URL.ResolveReference(u), nil
 	}
 	return u, nil
 }

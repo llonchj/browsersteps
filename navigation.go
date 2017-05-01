@@ -28,23 +28,38 @@ func (b *BrowserSteps) iReloadPage() error {
 }
 
 func (b *BrowserSteps) iSwitchToNewWindow() error {
-	wh, _ := b.GetWebDriver().WindowHandles()
+	wh, err := b.GetWebDriver().WindowHandles()
+	if err != nil {
+		return err
+	}
 	return b.GetWebDriver().SwitchWindow(wh[len(wh)-1])
 }
 
 func (b *BrowserSteps) iSwitchToMainWindow() error {
-	wh, _ := b.GetWebDriver().WindowHandles()
+	wh, err := b.GetWebDriver().WindowHandles()
+	if err != nil {
+		return err
+	}
 	return b.GetWebDriver().SwitchWindow(wh[0])
 }
 
 func (b *BrowserSteps) iCloseNewWindow() error {
-	wh, _ := b.GetWebDriver().WindowHandles()
+	wh, err := b.GetWebDriver().WindowHandles()
+	if err != nil {
+		return err
+	}
 	return b.GetWebDriver().CloseWindow(wh[len(wh)-1])
 }
 
 func (b *BrowserSteps) iSwitchToPreviousWindow() error {
-	current, _ := b.GetWebDriver().CurrentWindowHandle()
-	wh, _ := b.GetWebDriver().WindowHandles()
+	current, err := b.GetWebDriver().CurrentWindowHandle()
+	if err != nil {
+		return err
+	}
+	wh, err := b.GetWebDriver().WindowHandles()
+	if err != nil {
+		return err
+	}
 	if len(wh) < 2 {
 		return errors.New("No previous window")
 	}
@@ -64,18 +79,33 @@ func (b *BrowserSteps) iSwitchToWindowHaving(what, match string) error {
 		}
 		match = u.String()
 	}
-	current, _ := b.GetWebDriver().CurrentWindowHandle()
-	wh, _ := b.GetWebDriver().WindowHandles()
+	current, err := b.GetWebDriver().CurrentWindowHandle()
+	if err != nil {
+		return err
+	}
+	wh, err := b.GetWebDriver().WindowHandles()
+	if err != nil {
+		return err
+	}
 	for i := 0; i < len(wh); i++ {
-		b.GetWebDriver().SwitchWindow(wh[i])
+		err := b.GetWebDriver().SwitchWindow(wh[i])
+		if err != nil {
+			return err
+		}
 		switch what {
 		case "url":
-			URL, _ := b.GetWebDriver().CurrentURL()
+			URL, err := b.GetWebDriver().CurrentURL()
+			if err != nil {
+				return err
+			}
 			if URL == match {
 				return nil
 			}
 		case "title":
-			title, _ := b.GetWebDriver().Title()
+			title, err := b.GetWebDriver().Title()
+			if err != nil {
+				return err
+			}
 			if title == match {
 				return nil
 			}
@@ -83,17 +113,26 @@ func (b *BrowserSteps) iSwitchToWindowHaving(what, match string) error {
 			return fmt.Errorf("Invalid property. Found '%s', Expected 'url' or 'title'", what)
 		}
 	}
-	b.GetWebDriver().SwitchWindow(current)
+	err = b.GetWebDriver().SwitchWindow(current)
+	if err != nil {
+		return err
+	}
 	return errors.New("Abnormal exception: No window found")
 }
 
 func (b *BrowserSteps) iResizeBrowserWindowTo(w, h int) error {
-	current, _ := b.GetWebDriver().CurrentWindowHandle()
+	current, err := b.GetWebDriver().CurrentWindowHandle()
+	if err != nil {
+		return err
+	}
 	return b.GetWebDriver().ResizeWindow(current, w, h)
 }
 
 func (b *BrowserSteps) iMaximizeResizeBrowserWindow() error {
-	current, _ := b.GetWebDriver().CurrentWindowHandle()
+	current, err := b.GetWebDriver().CurrentWindowHandle()
+	if err != nil {
+		return err
+	}
 	return b.GetWebDriver().MaximizeWindow(current)
 }
 

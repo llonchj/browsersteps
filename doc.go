@@ -1,8 +1,6 @@
 /*
-Browser automation for Golang using Selenium and Cucumber
-
-Provides Browser automation Cucumber Steps using https://github.com/DATA-DOG/godog
-and https://github.com/tebeka/selenium.
+Package browsersteps provides browser automation Cucumber Steps
+using https://github.com/DATA-DOG/godog and https://github.com/tebeka/selenium.
 
 Provided Steps
 

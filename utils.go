@@ -35,7 +35,9 @@ func (b *BrowserSteps) GetURL(URL string) (*url.URL, error) {
 
 //GetCurrentWindowInnerSize returns window inner size
 func (b *BrowserSteps) GetCurrentWindowInnerSize() (*selenium.Size, error) {
-	widthI, err := b.GetWebDriver().ExecuteScript("return window.innerWidth", nil)
+	widthI, err := b.GetWebDriver().ExecuteScript(`return window.innerWidth || 
+		document.documentElement.clientWidth || document.body.clientWidth;
+`, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +45,8 @@ func (b *BrowserSteps) GetCurrentWindowInnerSize() (*selenium.Size, error) {
 	if !ok {
 		return nil, fmt.Errorf("Can not cast width %+v to a float64", widthI)
 	}
-	heightI, err := b.GetWebDriver().ExecuteScript("return window.innerHeight", nil)
+	heightI, err := b.GetWebDriver().ExecuteScript(`return window.innerHeight || 
+		document.documentElement.clientHeight || document.body.clientHeight`, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +59,8 @@ func (b *BrowserSteps) GetCurrentWindowInnerSize() (*selenium.Size, error) {
 
 //GetCurrentWindowScroll returns window scroll
 func (b *BrowserSteps) GetCurrentWindowScroll() (*selenium.Point, error) {
-	scrollXI, err := b.GetWebDriver().ExecuteScript("return window.scrollX", nil)
+	scrollXI, err := b.GetWebDriver().ExecuteScript(`return window.scrollX || 
+		document.body.scrollLeft || document.documentElement.scrollLeft`, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +68,8 @@ func (b *BrowserSteps) GetCurrentWindowScroll() (*selenium.Point, error) {
 	if !ok {
 		return nil, fmt.Errorf("Can not cast scrollX %+v to a float64", scrollXI)
 	}
-	scrollYI, err := b.GetWebDriver().ExecuteScript("return window.scrollY", nil)
+	scrollYI, err := b.GetWebDriver().ExecuteScript(`return window.scrollY ||
+		document.body.scrollTop || document.documentElement.scrollTop`, nil)
 	if err != nil {
 		return nil, err
 	}

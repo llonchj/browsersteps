@@ -6,6 +6,7 @@ import (
 	"log"
 	"net"
 	"os"
+	"strconv"
 	"testing"
 	"time"
 
@@ -27,7 +28,14 @@ func iWaitFor(amount int, unit string) error {
 func FeatureContext(s *godog.Suite) {
 	s.Step(`^I wait for (\d+) (milliseconds|millisecond|seconds|second)$`, iWaitFor)
 
-	// selenium.SetDebug(true)
+	debug := os.Getenv("DEBUG")
+	if debug != "" {
+		val, err := strconv.ParseBool(debug)
+		if err == nil {
+			selenium.SetDebug(val)
+		}
+	}
+
 	capabilities := selenium.Capabilities{"browserName": "chrome"}
 	capEnv := os.Getenv("SELENIUM_CAPABILITIES")
 	if capEnv != "" {

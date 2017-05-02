@@ -53,35 +53,44 @@ func (b *BrowserSteps) iShouldSeeIn(expectedText, selector, by string) error {
 }
 
 func (b *BrowserSteps) iShouldSee(selector, by string) error {
-	return godog.ErrPending
-	// element, err := b.GetWebDriver().FindElement(by, selector)
-	// if err != nil {
-	// 	return err
-	// }
-	// visible, err := element.IsDisplayed()
-	// if err != nil {
-	// 	return err
-	// }
-	// if !visible {
-	// 	return fmt.Errorf("Element '%s' is not visible", selector)
-	// }
-	// return nil
+	element, err := b.GetWebDriver().FindElement(by, selector)
+	if err != nil {
+		return err
+	}
+
+	elementRect, err := b.GetElementRect(element)
+	if err != nil {
+		return err
+	}
+	viewportRect, err := b.GetCurrentWindowViewport()
+	if err != nil {
+		return err
+	}
+	if !elementRect.In(viewportRect) {
+		return fmt.Errorf("Element '%s' %s not in the Window area", selector, by)
+	}
+	return nil
 }
 
 func (b *BrowserSteps) iShouldNotSee(selector, by string) error {
-	return godog.ErrPending
-	// element, err := b.GetWebDriver().FindElement(by, selector)
-	// if err != nil {
-	// 	return err
-	// }
-	// visible, err := element.IsDisplayed()
-	// if err != nil {
-	// 	return err
-	// }
-	// if visible {
-	// 	return fmt.Errorf("Element '%s' is visible", selector)
-	// }
-	// return nil
+	element, err := b.GetWebDriver().FindElement(by, selector)
+	if err != nil {
+		return err
+	}
+
+	elementRect, err := b.GetElementRect(element)
+	if err != nil {
+		return err
+	}
+	viewportRect, err := b.GetCurrentWindowViewport()
+	if err != nil {
+		return err
+	}
+
+	if elementRect.In(viewportRect) {
+		return fmt.Errorf("Element '%s' %s in the Window area", selector, by)
+	}
+	return nil
 }
 
 func (b *BrowserSteps) iShouldSeeAlertAs(expectedText string) error {

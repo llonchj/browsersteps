@@ -7,6 +7,11 @@ import (
 	"github.com/DATA-DOG/godog"
 )
 
+const (
+	scrollEndScript = `window.scrollTo(0,Math.max(document.documentElement.scrollHeight,document.body.scrollHeight,document.documentElement.clientHeight));`
+	scrollTopScript = `window.scrollTo(Math.max(document.documentElement.scrollHeight,document.body.scrollHeight,document.documentElement.clientHeight),0);`
+)
+
 func (b *BrowserSteps) iNavigateTo(browseURL string) error {
 	u, err := b.GetURL(browseURL)
 	if err != nil {
@@ -136,6 +141,29 @@ func (b *BrowserSteps) iMaximizeResizeBrowserWindow() error {
 	return b.GetWebDriver().MaximizeWindow(current)
 }
 
+func (b *BrowserSteps) iScrollTo(where string) error {
+	var script string
+	switch where {
+	case "top":
+		script = scrollTopScript
+	case "end":
+		script = scrollEndScript
+	default:
+		return fmt.Errorf("Invalid scroll direction. Got: '%s', allowed: 'top' or 'end'", where)
+	}
+	_, err := b.GetWebDriver().ExecuteScript(script, nil)
+	return err
+}
+
+func (b *BrowserSteps) iScrollToElement(selector, by string) error {
+	element, err := b.GetWebDriver().FindElement(by, selector)
+	if err != nil {
+		return err
+	}
+	_, err = element.LocationInView()
+	return err
+}
+
 func (b *BrowserSteps) buildNavigationSteps(s *godog.Suite) {
 	s.Step(`^I navigate to "([^"]*)"$`, b.iNavigateTo)
 	s.Step(`^I navigate forward$`, b.iNavigateForward)
@@ -153,4 +181,8 @@ func (b *BrowserSteps) buildNavigationSteps(s *godog.Suite) {
 	s.Step(`^I resize browser window size to width (\d+) and height (\d+)$`, b.iResizeBrowserWindowTo)
 	s.Step(`^I resize browser window size to (\d+)x(\d+)$`, b.iResizeBrowserWindowTo)
 	s.Step(`^I maximize browser window$`, b.iMaximizeResizeBrowserWindow)
+
+	s.Step(`^I scroll to "([^"]*)" `+ByOption+`$`, b.iScrollToElement)
+	s.Step(`^I scroll to (top|end) of page$`, b.iScrollTo)
+
 }

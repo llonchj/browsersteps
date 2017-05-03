@@ -4,5 +4,6 @@
   version = ">=0.6.3"
 
 [[dependencies]]
+  branch = "topic/hide-selenium-password-from-logged-url"
   name = "github.com/tebeka/selenium"
-  version = ">=0.9.3"
+  source = "github.com/llonchj/selenium"

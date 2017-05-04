@@ -1,4 +1,4 @@
-memo = "76d33850ac0bb1dd52d92c780959be1aa34d111b287034322d66765e00e5ab91"
+memo = "091cffc2cb1f1f65a874162ecc8b984b16e7652303b1d5691071ea49c12d7269"
 
 [[projects]]
   name = "github.com/DATA-DOG/godog"
@@ -7,8 +7,7 @@ memo = "76d33850ac0bb1dd52d92c780959be1aa34d111b287034322d66765e00e5ab91"
   version = "v0.6.3"
 
 [[projects]]
-  branch = "topic/hide-selenium-password-from-logged-url"
+  branch = "master"
   name = "github.com/tebeka/selenium"
   packages = [".","chrome","firefox","internal/zip"]
-  revision = "ab35371b607d81aaf7552671835983a2bbc3a3f0"
-  source = "github.com/llonchj/selenium"
+  revision = "20942210c3067fbfed8a7ae81e0badf1bf7c467a"

@@ -114,13 +114,13 @@ func (b *BrowserSteps) buildSteps(s *godog.Suite) {
 
 }
 
-//NewBrowserSteps is
-func NewBrowserSteps(s *godog.Suite, cap selenium.Capabilities, defaultURL string) (*BrowserSteps, error) {
-	bs := &BrowserSteps{Capabilities: cap, DefaultURL: defaultURL}
+//NewBrowserSteps starts a new BrowserSteps instance.
+func NewBrowserSteps(s *godog.Suite, cap selenium.Capabilities, defaultURL string) *BrowserSteps {
+	bs := &BrowserSteps{Capabilities: cap, DefaultURL: defaultURL, ScreenshotPath: os.Getenv("SCREENSHOT_PATH")}
 	bs.buildSteps(s)
 
 	s.BeforeScenario(bs.BeforeScenario)
 	s.AfterScenario(bs.AfterScenario)
 
-	return bs, nil
+	return bs
 }

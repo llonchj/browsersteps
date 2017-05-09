@@ -45,10 +45,7 @@ func FeatureContext(s *godog.Suite) {
 		}
 	}
 
-	bs, err := NewBrowserSteps(s, capabilities, os.Getenv("SELENIUM_URL"))
-	if err != nil {
-		log.Panic(err.Error())
-	}
+	bs := NewBrowserSteps(s, capabilities, os.Getenv("SELENIUM_URL"))
 
 	var server *httptest.Server
 	s.BeforeSuite(func() {

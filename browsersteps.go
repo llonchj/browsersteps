@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/url"
 	"os"
+	"path/filepath"
 
 	"github.com/DATA-DOG/godog"
 	"github.com/tebeka/selenium"
@@ -14,10 +15,11 @@ import (
 
 /*BrowserSteps represents a WebDriver context to run the Scenarios*/
 type BrowserSteps struct {
-	wd           selenium.WebDriver
-	Capabilities selenium.Capabilities
-	DefaultURL   string
-	URL          *url.URL
+	wd             selenium.WebDriver
+	Capabilities   selenium.Capabilities
+	DefaultURL     string
+	URL            *url.URL
+	ScreenshotPath string
 }
 
 /*SetBaseURL sets the absolute URL used to complete relative URLs*/
@@ -84,7 +86,7 @@ func (b *BrowserSteps) BeforeScenario(a interface{}) {
 
 //AfterScenario is executed after each scenario
 func (b *BrowserSteps) AfterScenario(a interface{}, err error) {
-	if err != nil {
+	if err != nil && b.ScreenshotPath != "" {
 		filename := fmt.Sprintf("FAILED STEP - %s.png", err.Error())
 
 		buff, err := b.GetWebDriver().Screenshot()
@@ -92,8 +94,10 @@ func (b *BrowserSteps) AfterScenario(a interface{}, err error) {
 			fmt.Printf("Error %+v\n", err)
 		}
 
-		os.MkdirAll("tmp/", 0755)
-		pathname := "tmp/" + filename
+		if _, err := os.Stat(b.ScreenshotPath); os.IsNotExist(err) {
+			os.MkdirAll(b.ScreenshotPath, 0755)
+		}
+		pathname := filepath.Join(b.ScreenshotPath, filename)
 		ioutil.WriteFile(pathname, buff, 0644)
 	}
 	b.GetWebDriver().Quit()

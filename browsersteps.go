@@ -31,10 +31,6 @@ func (b *BrowserSteps) SetBaseURL(url *url.URL) error {
 	return nil
 }
 
-func (b *BrowserSteps) iAmAnAnonymousUser() error {
-	return b.GetWebDriver().DeleteAllCookies()
-}
-
 func (b *BrowserSteps) iWriteTo(text, selector, by string) error {
 	// Click the element
 	element, err := b.GetWebDriver().FindElement(by, selector)
@@ -108,7 +104,7 @@ func (b *BrowserSteps) buildSteps(s *godog.Suite) {
 	b.buildAssertionSteps(s)
 	b.buildProcessSteps(s)
 
-	s.Step(`^I am a anonymous user$`, b.iAmAnAnonymousUser)
+	s.Step(`^I am a anonymous user$`, func() error { return b.GetWebDriver().DeleteAllCookies() })
 
 	s.Step(`^I write "([^"]*)" to "([^"]*)" `+ByOption+`$`, b.iWriteTo)
 	s.Step(`^I click "([^"]*)" `+ByOption+`$`, b.iClick)

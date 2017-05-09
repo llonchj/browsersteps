@@ -20,18 +20,6 @@ func (b *BrowserSteps) iNavigateTo(browseURL string) error {
 	return b.GetWebDriver().Get(u.String())
 }
 
-func (b *BrowserSteps) iNavigateForward() error {
-	return b.GetWebDriver().Forward()
-}
-
-func (b *BrowserSteps) iNavigateBack() error {
-	return b.GetWebDriver().Back()
-}
-
-func (b *BrowserSteps) iReloadPage() error {
-	return b.GetWebDriver().Refresh()
-}
-
 func (b *BrowserSteps) iSwitchToNewWindow() error {
 	wh, err := b.GetWebDriver().WindowHandles()
 	if err != nil {
@@ -166,11 +154,10 @@ func (b *BrowserSteps) iScrollToElement(selector, by string) error {
 
 func (b *BrowserSteps) buildNavigationSteps(s *godog.Suite) {
 	s.Step(`^I navigate to "([^"]*)"$`, b.iNavigateTo)
-	s.Step(`^I navigate forward$`, b.iNavigateForward)
-	s.Step(`^I navigate back$`, b.iNavigateBack)
+	s.Step(`^I navigate forward$`, func() error { return b.GetWebDriver().Forward() })
+	s.Step(`^I navigate back$`, func() error { return b.GetWebDriver().Back() })
 
-	s.Step(`^I reload the page$`, b.iReloadPage)
-	s.Step(`^I refresh page$`, b.iReloadPage)
+	s.Step(`^I (reload|refresh)( the)? page$`, func() error { return b.GetWebDriver().Refresh() })
 
 	s.Step(`^I switch to new window$`, b.iSwitchToNewWindow)
 	s.Step(`^I switch to main window$`, b.iSwitchToMainWindow)

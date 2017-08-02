@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Test server</title>
+    <style>
+        h1 {
+            text-align: center;
+        }
+
+        body {
+            font-family: Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="myform" onsubmit="javascript: return formSubmit();">
+        <label for="timeout">Timeout(ms)</label>
+        <input id="timeout" name="timeout" value="300">
+        <input type="submit" name="submit" id="submit" value="Submit">
+    </form>
+    <p id="p">Hello!</p>
+    <script>
+        function doIt(t) {
+            var ele = document.getElementById("p");
+            ele.innerHTML = t === undefined ? "Done!" : t;
+        }
+
+        function formSubmit() {
+            doIt("Hello!");
+            var ele = document.getElementById("timeout");
+            var timeout = parseInt(ele.value);
+            setTimeout(doIt, timeout);
+            return false;
+        }
+    </script>
+</body>
+
+</html>

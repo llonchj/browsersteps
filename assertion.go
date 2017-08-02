@@ -1,7 +1,9 @@
 package browsersteps
 
 import (
+	"context"
 	"fmt"
+	"time"
 
 	"github.com/DATA-DOG/godog"
 )
@@ -38,18 +40,27 @@ func (b *BrowserSteps) iShouldSeePageTitleAs(expectedTitle string) error {
 }
 
 func (b *BrowserSteps) iShouldSeeIn(expectedText, selector, by string) error {
-	element, err := b.GetWebDriver().FindElement(by, selector)
-	if err != nil {
-		return err
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+	for {
+		select {
+		case <-time.After(50 * time.Millisecond):
+			element, err := b.GetWebDriver().FindElement(by, selector)
+			if err != nil {
+				break
+			}
+			gotText, err := element.Text()
+			if err != nil {
+				break
+			}
+			if expectedText != gotText {
+				break
+			}
+			return nil
+		case <-ctx.Done():
+			return ctx.Err()
+		}
 	}
-	gotText, err := element.Text()
-	if err != nil {
-		return err
-	}
-	if expectedText != gotText {
-		return fmt.Errorf("Title Mismatch. Got '%s', Expected '%s'", gotText, expectedText)
-	}
-	return nil
 }
 
 func (b *BrowserSteps) iShouldSee(selector, by string) error {

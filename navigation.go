@@ -8,8 +8,8 @@ import (
 )
 
 const (
-	scrollEndScript = `window.scrollTo(0,Math.max(document.documentElement.scrollHeight,document.body.scrollHeight,document.documentElement.clientHeight));`
-	scrollTopScript = `window.scrollTo(Math.max(document.documentElement.scrollHeight,document.body.scrollHeight,document.documentElement.clientHeight),0);`
+	scrollEndScript = `window.scrollTo(0, document.body.scrollHeight);`
+	scrollTopScript = `window.scrollTo(0, 0);`
 )
 
 func (b *BrowserSteps) iNavigateTo(browseURL string) error {
@@ -139,7 +139,7 @@ func (b *BrowserSteps) iScrollTo(where string) error {
 	default:
 		return fmt.Errorf("Invalid scroll direction. Got: '%s', allowed: 'top' or 'end'", where)
 	}
-	_, err := b.GetWebDriver().ExecuteScript(script, nil)
+	_, err := b.GetWebDriver().ExecuteScript(script, []interface{}{})
 	return err
 }
 
@@ -148,7 +148,12 @@ func (b *BrowserSteps) iScrollToElement(selector, by string) error {
 	if err != nil {
 		return err
 	}
-	_, err = element.LocationInView()
+	pt, err := element.LocationInView()
+	if err != nil {
+		return err
+	}
+	_, err = b.GetWebDriver().ExecuteScript(
+		fmt.Sprintf("window.scrollTo(%d, %d);", pt.X, pt.Y), []interface{}{})
 	return err
 }
 
